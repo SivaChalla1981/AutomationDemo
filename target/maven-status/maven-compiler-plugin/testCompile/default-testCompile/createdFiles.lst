@@ -1,0 +1,4 @@
+pages\LandingPage.class
+stepdefs\registrationstepdefs.class
+pages\Registration.class
+pages\CompleteRegistraion.class
