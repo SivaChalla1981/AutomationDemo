@@ -1,5 +1,7 @@
 package config;
 
+import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -11,6 +13,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.After;
 import org.junit.BeforeClass;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class Driver {
 
@@ -18,117 +21,46 @@ public class Driver {
     //Environment Variable to refer in shell script
     static String environmentType = System.getProperty("environment", "local");
     //Browser variable to refer in shell script
-    static String browserType = System.getProperty("browser", "firefox");
+    static String browserType = System.getProperty("browser", "chrome");
 
 
     @BeforeClass
-    protected static WebDriver getDriver() {
-        driver = null;
-        if (driver == null) {
+    public static WebDriver getDriver()
+    {
+        System.out.println("Browser: " + browserType);
 
-            if ("local".equalsIgnoreCase(environmentType)) {
-                /**
-                 * Firefox Driver capabilities
-                 */
-                if ("firefox".equalsIgnoreCase(browserType)) {
+        switch (browserType.toLowerCase()) {
+            case "ff":
+            case "firefox":
+                driver = new FirefoxDriver();
+                break;
+            case "ch":
+            case "chrome":
+                System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "//browsers//chromedriver.exe");
+                driver = new ChromeDriver();
+                break;
+            case "ie" :
+            case "internetexplorer":
+                driver = new InternetExplorerDriver();
+                break;
+            default:
+                System.out.println("Invalid browser name "+browserType);
+                System.exit(0);
+                break;
+        }//switch
 
-                    DesiredCapabilities capability = DesiredCapabilities.firefox();
-
-                    try {
-                        System.setProperty("webdriver.gecko.driver",System.getProperty("user.dir")+"//browsers//geckodriver.exe");
-                        driver = new FirefoxDriver(capability);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                /**
-                 * Chromedriver Capabilites
-                 */
-                if ("chrome".equalsIgnoreCase(browserType)) {
-                    DesiredCapabilities capability = DesiredCapabilities.chrome();
-                    try {
-                        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "//browsers//chromedriver.exe");
-                        driver = new ChromeDriver(capability);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                /**
-                 * Chromedriver Capabilites
-                 */
-                if ("ie".equalsIgnoreCase(browserType)) {
-                    DesiredCapabilities capability = DesiredCapabilities.chrome();
-                    try {
-                        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "//browsers//ie.exe");
-                        driver = new InternetExplorerDriver(capability);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-               /* *//**
-                 * Html UnitDriver
-                 *//*
-                if ("htmlunit".equalsIgnoreCase(browserType)) {
-                    driver = new HtmlUnitDriver();
-                }*/
-
-            }
-            else {
-
-                if ("qa".equalsIgnoreCase(environmentType)) {
-                    /**
-                     * Firefox Driver capabilities
-                     */
-                    if ("firefox".equalsIgnoreCase(browserType)) {
-                        DesiredCapabilities capability = DesiredCapabilities.firefox();
-                        try {
-
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    /**
-                     * Chromedriver Capabilites
-                     */
-                    if ("chrome".equalsIgnoreCase(browserType)) {
-                        DesiredCapabilities capability = DesiredCapabilities.chrome();
-                        try {
-                            System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "//browsers//chromedriver.exe");
-                            driver = new ChromeDriver(capability);
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-               /* *//**
-                     * Html UnitDriver
-                     *//*
-                if ("htmlunit".equalsIgnoreCase(browserType)) {
-                    driver = new HtmlUnitDriver();
-                }*/
-
-                }
-
-            }
-
-        }
+        driver.manage().deleteAllCookies();
         driver.manage().window().maximize();
+        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+        driver.manage().timeouts().setScriptTimeout(60, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+
         return driver;
     }
-
     @AfterClass
-    public void closeBrowserInstance() {
-        if (driver != null) {
-            driver.quit();
-        }
+    public void closeBrowserInstance(){
+        if(driver!=null)
+            driver.close();
     }
-
-
 
 }

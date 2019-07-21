@@ -16,32 +16,25 @@ public class BaseClass extends Driver {
      */
     public static void navigateToLandingPage() {
 
-        String environmentToLoad = environmentType;
+        String environmentToLoad = System.getProperty("environment", "local");
 
         switch (environmentToLoad.charAt(0)) {
             case 'l':
                 driver.manage().deleteAllCookies();
-                driver.navigate().to(config.getProperty(("localEnvironmentBaseUrl")));
+                driver.navigate().to(objectProperties.getProperty(("localEnvironmentBaseUrl")));
 
                 break;
             case 'd':
                 //for Dev envrionment
                 break;
             case 'q':
-                driver.manage().deleteAllCookies();
-                driver.navigate().to(config.getProperty(("qaEnvironmentBaseUrl")));
+                //for QA environment
                 break;
         }
 
     }
 
-    /**
-     *Constructor call to load properties file
-     */
-    public BaseClass() {
-        getDriver();
-        getObjectRepoFile();
-    }
+
 
 
     /**
@@ -50,29 +43,31 @@ public class BaseClass extends Driver {
 
     public static FileInputStream fis = null;
     public static Properties objectProperties = new Properties();
-    public static Properties config = new Properties();
+    public static Properties testDataProperties = new Properties();
 
-    public static void getObjectRepoFile(){
+    public static void getConfigPoperties(){
 
         try{
             fis = new FileInputStream(System.getProperty("user.dir")+"//src//objectrepository//config.properties");
             objectProperties.load(fis);
         }catch (FileNotFoundException fne){
+
             System.out.println(fne.getMessage());
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     /**
      * Function to load the test data file.
      */
-    public static void getConfigPoperties(){
+    public static void getObjectRepoFile(){
 
         try{
             fis = new FileInputStream(System.getProperty("user.dir")+"//src//objectrepository//objectRepo.properties");
-            config.load(fis);
+            testDataProperties.load(fis);
         }catch (FileNotFoundException fne){
 
             System.out.println(fne.getMessage());

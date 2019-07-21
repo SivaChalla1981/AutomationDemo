@@ -5,6 +5,7 @@ import static config.Driver.driver;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.junit.Assert;
 import pages.LandingPage;
 
 public class registrationstepdefs {
@@ -23,12 +24,24 @@ public class registrationstepdefs {
 
     @Then("I need to see the mandatory attributes")
     public void i_need_to_see_the_mandatory_attributes() {
-
+      lp.checkMandatoryElements();
     }
 
     @Then("I close my browser instance")
     public void i_close_my_browser_instance(){
         lp.closeBrowserInstance();
+    }
+
+    @When("^I click the register link$")
+    public void i_click_the_register_link() throws Throwable {
+       lp.clickRegisterLink();
+    }
+
+    @Then("^I'm in registration page$")
+    public void i_m_in_registration_page() throws Throwable {
+        String url = "https://uk.rs-online.com/web/register/registration";
+        Assert.assertEquals(driver.getCurrentUrl(),url);
+        Assert.assertTrue(lp.checkRegistrationPageTitle());
     }
 
 }
