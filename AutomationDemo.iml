@@ -75,5 +75,12 @@
     <orderEntry type="library" name="Maven: info.cukes:cucumber-java:1.2.5" level="project" />
     <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-htmlunit-driver:2.52.0" level="project" />
     <orderEntry type="library" name="Maven: commons-collections:commons-collections:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.vimalselvam:cucumber-extentsreport:3.1.1" level="project" />
+    <orderEntry type="library" name="Maven: com.aventstack:extentreports:3.1.2" level="project" />
+    <orderEntry type="library" name="Maven: org.freemarker:freemarker:2.3.23" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver:3.3.0" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:bson:3.3.0" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver-core:3.3.0" level="project" />
+    <orderEntry type="library" name="Maven: org.jsoup:jsoup:1.9.2" level="project" />
   </component>
 </module>

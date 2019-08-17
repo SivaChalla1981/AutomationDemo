@@ -2,6 +2,7 @@ package stepdefs;
 
 import static config.Driver.driver;
 
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -14,7 +15,7 @@ public class registrationstepdefs {
 
     @Given("As a new user i open the RSS component url in browser")
     public void as_a_new_user_i_open_the_RSS_component_url_in_browser() {
-        lp.navigateToRegistrationPage();
+        lp.navigateToStartingPage();
     }
 
     @When("application is loaded fully")
@@ -42,6 +43,18 @@ public class registrationstepdefs {
         String url = "https://uk.rs-online.com/web/register/registration";
         Assert.assertEquals(driver.getCurrentUrl(),url);
         Assert.assertTrue(lp.checkRegistrationPageTitle());
+    }
+
+    @And("^I click on Registerlink$")
+    public void i_click_on_registerlink() throws Throwable {
+        lp.clickRegisterLink();
+    }
+
+    @Then("^I should see all the mandatory attributes of registration page$")
+    public void i_should_see_all_the_mandatory_attributes_of_registration_page() throws Throwable {
+        Assert.assertTrue(lp.checkRegistrationPageTitle());
+        lp.checkMandatoryFieldsForRegistrationPage();
+
     }
 
 }

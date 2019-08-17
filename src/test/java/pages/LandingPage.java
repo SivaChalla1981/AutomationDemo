@@ -22,6 +22,15 @@ public class LandingPage extends BaseClass{
         driver.findElement(By.xpath(testDataProperties.getProperty("checkBox"))).isDisplayed();
     }
 
+    public void checkMandatoryFieldsForRegistrationPage(){
+
+        driver.findElement(By.xpath(testDataProperties.getProperty("usernameLableXpath"))).isDisplayed();
+        driver.findElement(By.xpath(testDataProperties.getProperty("passwordLableXpath"))).isDisplayed();
+        driver.findElement(By.xpath(testDataProperties.getProperty("renamePasswordXpath"))).isDisplayed();
+        driver.findElement(By.xpath(testDataProperties.getProperty("titleXpath"))).isDisplayed();
+        driver.findElement(By.xpath(testDataProperties.getProperty("firstNameLableXpath"))).isDisplayed();
+
+    }
 
 
     public Boolean checkRegistrationPageTitle(){
@@ -29,17 +38,16 @@ public class LandingPage extends BaseClass{
         return true;
     }
 
-    public void clickRegisterLink(){
+    public Registration clickRegisterLink(){
         driver.findElement(By.xpath(testDataProperties.getProperty("registrationLink"))).click();
+        return new Registration(driver);
     }
 
-    public Registration navigateToRegistrationPage(){
-
+    public void navigateToStartingPage(){
        LandingPage.navigateToLandingPage();
-       checkMandatoryElements();
-       clickRegisterLink();
-       return new Registration(driver);
     }
+
+
 
 
 
